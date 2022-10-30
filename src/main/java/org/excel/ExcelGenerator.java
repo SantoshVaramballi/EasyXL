@@ -25,7 +25,7 @@ public class ExcelGenerator {
     StringBuffer xl = new StringBuffer();
     XSSFRow row = null;
 
-    protected String timezoneIDName = null;
+
     protected XSSFSheet sheet = null;
     protected XSSFWorkbook workBook = new XSSFWorkbook();
     protected int titleRowNo = 0;
@@ -81,11 +81,12 @@ public class ExcelGenerator {
     	    sheetCount = 1;
     	    sheet.setDisplayGridlines(false);
     	    sheet.setDefaultColumnWidth(20);
+    	    dataStylToggleReset();
 
     	    /*--------------------------------------------------Assigning Different Cell Styles ------------------------------------------------------------------*/
     	    //
     	    System.out.println("Title - setting format data.");
-    	    byte[] hexBGColorHedTitle= new  byte[] { (byte) 77, (byte) 121, (byte) 199 };
+    	    byte[] hexBGColorHedTitle= new  byte[] { (byte) 255, (byte) 127, (byte) 80 };
     	    byte[] hexFontColorHedTitle = new  byte[]  { (byte) 0, (byte) 0, (byte) 0 };
     	    String fontHedTitle= "calibri";
     	    Boolean isBoldHedTitle = true;
@@ -98,7 +99,7 @@ public class ExcelGenerator {
 
     	    // Header1
 
-    	    byte[] hexBGColorHed1 = new  byte[] { (byte) 255, (byte) 204, (byte) 153 };
+    	    byte[] hexBGColorHed1 = new  byte[] { (byte) 0, (byte) 82, (byte) 224 };
     	    byte[] hexFontColorHed1= new  byte[] { (byte) 255, (byte) 255, (byte) 255 };
     	    String fontHed1= font;
     	    Boolean isBoldHed1= true;
@@ -111,7 +112,7 @@ public class ExcelGenerator {
 
     	    // Header2
     	    System.out.println("Header2 - setting format data.");
-    	    byte[] hexBGColorHed2 = new  byte[] { (byte) 255, (byte) 204, (byte) 153  };
+    	    byte[] hexBGColorHed2 = new  byte[] { (byte) 0, (byte) 166, (byte) 184 };
     	    byte[] hexFontColorHed2 = new  byte[] { (byte) 0, (byte) 0, (byte) 0 };
     	    String fontHed2= font;
     	    Boolean isBoldHed2 = true;
@@ -125,6 +126,7 @@ public class ExcelGenerator {
 
 
     	    // Data1
+    	    System.out.println("Data1 - setting format data.");
     	    byte[] hexBGColorData1 = new  byte[] { (byte) 255, (byte) 255, (byte) 255 };
     	    byte[] hexFontColorData1= new  byte[] { (byte) 0, (byte) 0, (byte) 0 };
     	    String fontData1= font;
@@ -391,7 +393,7 @@ public class ExcelGenerator {
      *
      *
      */
-    protected void addHeaderData(String content, int numberOfColumn, hdStl headerStyleType) {
+    public void addHeaderData(String content, int numberOfColumn, hdStl headerStyleType) {
 	int rowNum = row.getRowNum();
 
 	int firstColumn = row.getLastCellNum();
@@ -425,7 +427,7 @@ public class ExcelGenerator {
 
     }
 
-    protected void addHeaderData(String[] dataArray, int columnWidth, hdStl headerStyleType) {
+    public void addHeaderData(String[] dataArray, int columnWidth, hdStl headerStyleType) {
     	int numberOfColumn=1;
 	for (String data : dataArray) {
 	    int rowNum = row.getRowNum();
@@ -448,7 +450,7 @@ public class ExcelGenerator {
 	    RegionUtil.setBorderRight(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
 	}
     }
-    protected void addData(String content, int lastColumn) {
+    public void addData(String content, int lastColumn) {
 	int rowNum = row.getRowNum();
 
 	int firstColumn = row.getLastCellNum();
@@ -482,18 +484,6 @@ public class ExcelGenerator {
     public void dataStylToggleReset() {
 	dataStyleToggle = false;
     }
-
-    /**
-     *
-     * Inserts the Created time details in the below format (Takes up 4 adjacent Cells )
-     * CREATED TIME: dd MMM yyyy hh:mm AM/PM [TIME ZONE]
-     *
-     */
-    protected void crteatedTimeRow() {
-
-	addHeaderData("CREATED TIME: " + userDate + " [" + this.timezoneIDName.toUpperCase() + "] ", 2, hdStl.Title);
-    }
-
 
 
 
