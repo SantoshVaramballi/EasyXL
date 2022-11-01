@@ -91,12 +91,12 @@ void addData(String[] dataArray);
 void addData(String data, int numberOfColumn) 
 ```
 ```java
-/*switching non-header data format*/
+/*Switching non-header data format*/
 void dataStylToggle();
 void dataStylToggleReset();
 ```
 ```java
-/*saving file to disk*/
+/*Saving file to disk*/
 void saveFile(String path, String fileName);
 
 ```
