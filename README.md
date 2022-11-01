@@ -6,11 +6,11 @@ EasyXL is a tool kit which helps to Generate Formatted Excel WorkBooks easily.
 ##### Table of Contents  
 
 [Description](#description)  
+[Sample Output](#sample-output)  
 [JAR File](#jar-file)  
 [Dependencies](#dependencies)  
 [Usage](#usage)  
 [Primary Methods](#primary-methods)  
-[Version History](#version-history)  
 
 
 # Description
@@ -20,7 +20,8 @@ It aims to
 1) Reduce the effort involved in creating code for generating Formatted Excel reports in JAVA. 
 2) Increase code efficiency by creating the Format object once and reusing it for the entire workbook creation.
 
-
+# Sample Output
+![Sample_excel_file.JPG](https://github.com/SantoshVaramballi/EasyXL/blob/main/Sample%20outputs/Sample_excel_file.JPG)
 
 # JAR File
 Jar file is available [here](https://github.com/SantoshVaramballi/EasyXL/tree/main/EasyXL_Jars).
@@ -69,8 +70,6 @@ NOTE: You can find the full code sample here [SimpleTwoSheetWorkbook](https://gi
 <To be completed>
 
 
-# Version History
-<To be completed>
 
 
 
