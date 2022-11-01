@@ -394,13 +394,13 @@ public class ExcelGenerator {
      *
      *
      */
-    public void addHeaderData(String content, int numberOfColumn, hdStl headerStyleType) {
+    public void addHeaderData(String data, int numberOfColumn, hdStl headerStyleType) {
 	int rowNum = row.getRowNum();
 
 	int firstColumn = row.getLastCellNum();
 	firstColumn = (firstColumn < 0 ? 0 : firstColumn);
 
-	addHeaderData(content, headerStyleType);
+	addHeaderData(data, headerStyleType);
 	numberOfColumn = firstColumn + numberOfColumn-1;
 
 	sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn));
@@ -451,7 +451,7 @@ public class ExcelGenerator {
 	    RegionUtil.setBorderRight(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
 	}
     }
-    public void addData(String content, int lastColumn) {
+    public void addData(String data, int numberOfColumn) {
 	int rowNum = row.getRowNum();
 
 	int firstColumn = row.getLastCellNum();
@@ -459,13 +459,13 @@ public class ExcelGenerator {
 	if (firstColumn < 0) {
 	    firstColumn = 0;
 	}
-	lastColumn = firstColumn + lastColumn-1;
-	addData(content);
-	sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum, firstColumn, lastColumn));
-	RegionUtil.setBorderBottom(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, lastColumn), sheet);
-		RegionUtil.setBorderTop(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, lastColumn), sheet);
-		RegionUtil.setBorderLeft(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, lastColumn), sheet);
-		RegionUtil.setBorderRight(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, lastColumn), sheet);
+	numberOfColumn = firstColumn + numberOfColumn-1;
+	addData(data);
+	sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn));
+	RegionUtil.setBorderBottom(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
+		RegionUtil.setBorderLeft(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
+		RegionUtil.setBorderRight(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
 		updateMaxColumnCount();
 
 
