@@ -56,7 +56,14 @@ import org.easyxl.ExcelGenerator.hdStl;
 ```
 ExcelGenerator egm = new ExcelGenerator();
 ```
-4) Populate the data using the methods mentioned in [Primary Methods](#primary-methods)  
+4) Populate the data using the methods mentioned in [Primary Methods](#primary-methods) 
+5) Save the File to disk using the "saveFile" metod.
+```
+egm.saveFile("File path","file_name");
+```
+
+NOTE: You can find the full code sample here [SimpleTwoSheetWorkbook](https://github.com/SantoshVaramballi/EasyXL/blob/main/src/main/java/org/easyxl/sample/SimpleTwoSheetWorkbook.java)
+
 
 # Primary Methods
 <To be completed>
