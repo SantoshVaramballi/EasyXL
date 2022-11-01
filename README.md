@@ -62,7 +62,7 @@ ExcelGenerator egm = new ExcelGenerator();
 egm.saveFile("File path","file_name");
 ```
 
-NOTE: You can find the full code sample here [SimpleTwoSheetWorkbook](https://github.com/SantoshVaramballi/EasyXL/tree/main/src/main/java/org/easyxl/sample)
+NOTE: You can find the full code sample here [SimpleTwoSheetWorkbook](https://github.com/SantoshVaramballi/EasyXL/blob/main/src/main/java/org/easyxl/sample/SimpleTwoSheetWorkbook.java)
 
 
 # Primary Methods
