@@ -48,18 +48,18 @@ The below entries need to be added to the pom.xml file.
 # Usage
 1) Add the jar file to your project dependencies. 
 2) Import the required modules as below. 
-```
+```java
 import org.easyxl.ExcelGenerator;
 import org.easyxl.ExcelGenerator.hdStl;
 ```
 
 3) Create a Excel generator object using the code below.
-```
+```java
 ExcelGenerator egm = new ExcelGenerator();
 ```
 4) Populate the data using the methods mentioned in [Primary Methods](#primary-methods) 
 5) Save the File to disk using the "saveFile" metod.
-```
+```java
 egm.saveFile("File path","file_name");
 ```
 
@@ -67,7 +67,39 @@ NOTE: You can find the full code sample here [SimpleTwoSheetWorkbook](https://gi
 
 
 # Primary Methods
-<To be completed>
+```java
+
+/*Creating new sheet*/
+void createNewExcelSheet (String sheetName);
+```
+
+```java
+/*Navigating to new row*/
+void newRow();
+void newRow(int noOfRows);
+```
+```java
+/*Adding header data*/
+void addHeaderData(String data, hdStl headerStyleType);
+void addHeaderData(String data, int numberOfColumn, hdStl headerStyleType);
+void addHeaderData(String[] dataArray, hdStl headerStyleType);
+```
+```java
+/*Adding non-header data*/
+void addData(String data);
+void addData(String[] dataArray);
+void addData(String data, int numberOfColumn) 
+```
+```java
+/*switching non-header data format*/
+void dataStylToggle();
+void dataStylToggleReset();
+```
+```java
+/*saving file to disk*/
+void saveFile(String path, String fileName);
+
+```
 
 
 
