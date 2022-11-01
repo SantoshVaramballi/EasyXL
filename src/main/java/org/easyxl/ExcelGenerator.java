@@ -1,4 +1,4 @@
-package org.excel;
+package org.easyxl;
 
 import java.util.HashMap;
 
@@ -18,6 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.easyxl.utils.GeneralUtils;
 
 public class ExcelGenerator {
 //test comment
@@ -496,5 +497,12 @@ public class ExcelGenerator {
 
     		 return new byte[] {(byte)r,(byte)g,(byte)b};
     }
+    	
+    	
+    	public void saveFile(String path, String fileName){
+    		XSSFWorkbook xlWorkbook = getExcelWorkBook();
+    		GeneralUtils.writeXLToFile(xlWorkbook,path, fileName);
+    		System.out.println("File "+fileName+".xlsx is Saved");
+    	}
 
 }
