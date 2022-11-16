@@ -1,3 +1,6 @@
+![GitHub](https://img.shields.io/github/license/leroy-merlin-br/logstash-exporter)  ![Output](https://img.shields.io/badge/Excel-xlsx-008000) ![JavaVersion](https://img.shields.io/badge/Java-%3E1.6-4A7493)
+
+
 # EasyXL
 EasyXL is a tool kit which helps to Generate Formatted Excel WorkBooks easily.
 
@@ -46,7 +49,7 @@ The below entries need to be added to the pom.xml file.
 ```
 
 # Usage
-1) Add the jar file to your project dependencies. 
+1) Add the [EasyXL.jar](https://github.com/SantoshVaramballi/EasyXL/tree/main/EasyXL_Jars) file to your project dependencies. 
 2) Import the required modules as below. 
 ```java
 import org.easyxl.ExcelGenerator;
