@@ -1,4 +1,4 @@
-![GitHub](https://img.shields.io/github/license/leroy-merlin-br/logstash-exporter)  ![Output](https://img.shields.io/badge/Excel-xlsx-008000) ![JavaVersion](https://img.shields.io/badge/Java-%3E1.6-4A7493)
+![GitHub](https://img.shields.io/github/license/leroy-merlin-br/logstash-exporter)  ![Output](https://img.shields.io/badge/Excel-xlsx-008000) ![JavaVersion](https://img.shields.io/badge/Java-%3E=%201.6-4A7493)
 
 
 # EasyXL
