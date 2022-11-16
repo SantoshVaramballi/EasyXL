@@ -1,5 +1,6 @@
 package org.easyxl;
 
+import java.awt.Color;
 import java.util.HashMap;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -50,8 +51,8 @@ public class ExcelGenerator {
 
    private boolean dataStyleToggle = false;
 
-
-	public enum hdStl { style1, style2, Title }
+   public enum horizontalAllignment { LEFT, RIGHT, CENTER }
+	public enum hdStl { STYLE1, STYLE2, TITLE }
 	XSSFCellStyle defaultCellStyle = null;
 
     XSSFCellStyle cellStyleHeaderTitle = null;
@@ -62,16 +63,50 @@ public class ExcelGenerator {
     XSSFCellStyle cellStyleData2 = null;
 
 
-
+    private HashMap<String,XSSFCellStyle> customStyleMap = new HashMap<String,XSSFCellStyle>();
 
 
     public XSSFWorkbook getExcelWorkBook() {
-
     	return  this.workBook;
-
-
     }
-
+    
+///// ADDING Custom style 
+    //Create Style object (XSSFCellStyle)
+    //Create a method store style object in map  
+    //create Header and data methods to accept Key
+    //TEST
+    
+    
+public void addCustomStyle (String StyleName,String  hexBGColor,String  hexFontColor,String font,double fontSize,horizontalAllignment allignment,
+		Boolean isBold, Boolean isItalic, Boolean isUnderline) {
+	//Convert Hex to byte
+    byte[] bgColor= new  byte[] { (byte) 255, (byte) 255, (byte) 255 };
+    byte[] fontColor = new  byte[]  { (byte) 0, (byte) 0, (byte) 0 };
+    String finalIAllignment= "Left";
+    
+    
+    byte[] bgColorTemp = GeneralUtils.hex2Rgb(hexBGColor);
+    byte[] fontColorTemp = GeneralUtils.hex2Rgb(hexFontColor);
+    
+    if(bgColorTemp!=null && fontColorTemp != null) {
+    	bgColor = bgColorTemp;
+    	fontColor=fontColorTemp;
+    }
+    
+    if(allignment.equals(horizontalAllignment.RIGHT)) {
+    	finalIAllignment= "Right";
+    }
+    else if(allignment.equals(horizontalAllignment.CENTER)) {
+    	finalIAllignment= "Center";
+    }
+    
+    
+    
+    cellStyleHeaderTitle = setCellStyle(bgColor, fontColor, font, isBold, isItalic, isUnderline, fontSize, finalIAllignment);
+	
+    customStyleMap.put(StyleName, cellStyleHeaderTitle);
+    
+}
 
     public void createNewExcelSheet (String sheetName) {
     	 newRowIndex = 0;
@@ -87,8 +122,8 @@ public class ExcelGenerator {
     	    /*--------------------------------------------------Assigning Different Cell Styles ------------------------------------------------------------------*/
     	    //
     	    System.out.println("Title - setting format data.");
-    	    byte[] hexBGColorHedTitle= new  byte[] { (byte) 255, (byte) 127, (byte) 80 };
-    	    byte[] hexFontColorHedTitle = new  byte[]  { (byte) 0, (byte) 0, (byte) 0 };
+    	    byte[] bgColorHedTitle= new  byte[] { (byte) 255, (byte) 127, (byte) 80 };
+    	    byte[] fontColorHedTitle = new  byte[]  { (byte) 0, (byte) 0, (byte) 0 };
     	    String fontHedTitle= "calibri";
     	    Boolean isBoldHedTitle = true;
     	    Boolean isItalicHedTitle = false;
@@ -96,12 +131,12 @@ public class ExcelGenerator {
     	    double fontSizeHedTitle= 11;
     	    String allignmentHedTitle= "Left";
 
-    	    cellStyleHeaderTitle = setCellStyle(hexBGColorHedTitle, hexFontColorHedTitle, fontHedTitle, isBoldHedTitle, isItalicHedTitle, isUnderlineHedTitle, fontSizeHedTitle, allignmentHedTitle);
+    	    cellStyleHeaderTitle = setCellStyle(bgColorHedTitle, fontColorHedTitle, fontHedTitle, isBoldHedTitle, isItalicHedTitle, isUnderlineHedTitle, fontSizeHedTitle, allignmentHedTitle);
 
     	    // Header1
 
-    	    byte[] hexBGColorHed1 = new  byte[] { (byte) 0, (byte) 82, (byte) 224 };
-    	    byte[] hexFontColorHed1= new  byte[] { (byte) 255, (byte) 255, (byte) 255 };
+    	    byte[] bgColorHed1 = new  byte[] { (byte) 0, (byte) 82, (byte) 224 };
+    	    byte[] fontColorHed1= new  byte[] { (byte) 255, (byte) 255, (byte) 255 };
     	    String fontHed1= font;
     	    Boolean isBoldHed1= true;
     	    Boolean isItalicHed1 = false;
@@ -109,12 +144,12 @@ public class ExcelGenerator {
     	    double fontSizeHed1 = 11;
     	    String allignmentHed1 ="Center";
 
-    	    cellStyleHeader1 = setCellStyle(hexBGColorHed1, hexFontColorHed1, fontHed1, isBoldHed1, isItalicHed1, isUnderlineHed1, fontSizeHed1, allignmentHed1);
+    	    cellStyleHeader1 = setCellStyle(bgColorHed1, fontColorHed1, fontHed1, isBoldHed1, isItalicHed1, isUnderlineHed1, fontSizeHed1, allignmentHed1);
 
     	    // Header2
     	    System.out.println("Header2 - setting format data.");
-    	    byte[] hexBGColorHed2 = new  byte[] { (byte) 0, (byte) 166, (byte) 184 };
-    	    byte[] hexFontColorHed2 = new  byte[] { (byte) 0, (byte) 0, (byte) 0 };
+    	    byte[] bgColorHed2 = new  byte[] { (byte) 0, (byte) 166, (byte) 184 };
+    	    byte[] fontColorHed2 = new  byte[] { (byte) 0, (byte) 0, (byte) 0 };
     	    String fontHed2= font;
     	    Boolean isBoldHed2 = true;
     	    Boolean isItalicHed2= false;
@@ -122,14 +157,14 @@ public class ExcelGenerator {
     	    double fontSizeHed2 = 11;
     	    String allignmentHed2 = "Center";
 
-    	    cellStyleHeader2 = setCellStyle(hexBGColorHed2, hexFontColorHed2, fontHed2, isBoldHed2, isItalicHed2, isUnderlineHed2, fontSizeHed2, allignmentHed2);
+    	    cellStyleHeader2 = setCellStyle(bgColorHed2, fontColorHed2, fontHed2, isBoldHed2, isItalicHed2, isUnderlineHed2, fontSizeHed2, allignmentHed2);
 
 
 
     	    // Data1
     	    System.out.println("Data1 - setting format data.");
-    	    byte[] hexBGColorData1 = new  byte[] { (byte) 255, (byte) 255, (byte) 255 };
-    	    byte[] hexFontColorData1= new  byte[] { (byte) 0, (byte) 0, (byte) 0 };
+    	    byte[] bgColorData1 = new  byte[] { (byte) 255, (byte) 255, (byte) 255 };
+    	    byte[] fontColorData1= new  byte[] { (byte) 0, (byte) 0, (byte) 0 };
     	    String fontData1= font;
     	    Boolean isBoldData1 = false;
     	    Boolean isItalicData1= false;
@@ -137,13 +172,13 @@ public class ExcelGenerator {
     	    double fontSizeData1 = 10.5;
     	    String allignmentData1 = "Left";
 
-    	    cellStyleData1 = setCellStyle(hexBGColorData1, hexFontColorData1, fontData1, isBoldData1, isItalicData1, isUnderlineData1, fontSizeData1, allignmentData1);
+    	    cellStyleData1 = setCellStyle(bgColorData1, fontColorData1, fontData1, isBoldData1, isItalicData1, isUnderlineData1, fontSizeData1, allignmentData1);
 
 
     	    // Data2
     	    System.out.println("Data2 - setting format data.");
-    	    byte[] hexBGColorData2= new  byte[]  { (byte) 232, (byte) 238, (byte) 248 };
-    	    byte[] hexFontColorData2  = new  byte[]{ (byte) 0, (byte) 0, (byte) 0 };
+    	    byte[] bgColorData2= new  byte[]  { (byte) 232, (byte) 238, (byte) 248 };
+    	    byte[] fontColorData2  = new  byte[]{ (byte) 0, (byte) 0, (byte) 0 };
     	    String fontData2= font;
     	    Boolean isBoldData2= false;
     	    Boolean isItalicData2= false;
@@ -151,7 +186,7 @@ public class ExcelGenerator {
     	    double fontSizeData2 = 10.5;
     	    String allignmentData2 = "Left";
 
-    	    cellStyleData2 = setCellStyle(hexBGColorData2, hexFontColorData2, fontData2, isBoldData2, isItalicData2, isUnderlineData2, fontSizeData2, allignmentData2);
+    	    cellStyleData2 = setCellStyle(bgColorData2, fontColorData2, fontData2, isBoldData2, isItalicData2, isUnderlineData2, fontSizeData2, allignmentData2);
 
 
     	    /*--------------------------------------------------Done Assigning Different Cell Styles ------------------------------------------------------------------*/
@@ -171,10 +206,10 @@ public class ExcelGenerator {
 	contentCell = row.createCell(cellCount);
 	contentCell.setCellValue(new XSSFRichTextString(value));
 
-	if (headerStyleType.equals(hdStl.style1)) {
+	if (headerStyleType.equals(hdStl.STYLE1)) {
 	    contentCell.setCellStyle(cellStyleHeader1);
 
-	} else if (headerStyleType.equals(hdStl.Title)) {
+	} else if (headerStyleType.equals(hdStl.TITLE)) {
 	    contentCell.setCellStyle(cellStyleHeaderTitle);
 
 	} else {
@@ -225,7 +260,7 @@ public class ExcelGenerator {
     }
 
 
-    protected XSSFCellStyle setCellStyle(byte[] hexBGColor, byte[] hexFontColor, String font, Boolean bold,
+	protected XSSFCellStyle setCellStyle(byte[] bgColor, byte[] fontColor, String font, Boolean bold,
 	    Boolean italic, Boolean Underline, double size, String allignment) {
 	XSSFCellStyle cellStyle = workBook.createCellStyle();
 	XSSFFont cellFont = workBook.createFont();
@@ -243,7 +278,7 @@ public class ExcelGenerator {
 	cellStyle.setBottomBorderColor(xssfColorBlack);
 	cellStyle.setBorderBottom(BorderStyle.THIN);
 
-	cellStyle.setFillForegroundColor(new XSSFColor(hexBGColor));
+	cellStyle.setFillForegroundColor(new XSSFColor(bgColor));
 	cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 	cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -256,7 +291,7 @@ public class ExcelGenerator {
 	    cellStyle.setAlignment(HorizontalAlignment.CENTER);
 	}
 
-	cellFont.setColor(new XSSFColor(hexFontColor));
+	cellFont.setColor(new XSSFColor(fontColor));
 	cellFont.setBold(bold);
 	cellFont.setItalic(italic);
 	if (Underline) {
@@ -265,7 +300,6 @@ public class ExcelGenerator {
 	// cellFont.setFontName("calibri");
 	cellFont.setFontName(font);
 	cellFont.setFontHeight(size);
-
 	cellStyle.setFont(cellFont);
 
 	return cellStyle;
@@ -487,17 +521,6 @@ public class ExcelGenerator {
     }
 
 
-
-
-    	public static byte[] hex2Rgb(String colorStr) {
-
-    		 int r= Integer.valueOf(colorStr.substring(1,3), 16);
-    		 int g= Integer.valueOf(colorStr.substring(3,5), 16);
-    		 int b= Integer.valueOf(colorStr.substring(5,7), 16);
-
-    		 return new byte[] {(byte)r,(byte)g,(byte)b};
-    }
-    	
     	
     	public void saveFile(String path, String fileName){
     		XSSFWorkbook xlWorkbook = getExcelWorkBook();
