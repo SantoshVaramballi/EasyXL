@@ -34,10 +34,10 @@ public class SimpleTwoSheetWorkbook {
 		
 		
 		egm.newRow();
-		egm.addHeaderData("SAMPLE TITLE BAR 1",6,hdStl.Title);
+		egm.addHeaderData("SAMPLE TITLE BAR 1",6,hdStl.TITLE);
 		
 		egm.newRow(2);
-		egm.addHeaderData("Header",hdStl.style1);
+		egm.addHeaderData("Header",hdStl.STYLE1);
 		egm.newRow();
 		egm.addData("data11");
 		egm.newRow();
@@ -51,14 +51,14 @@ public class SimpleTwoSheetWorkbook {
 		egm.dataStylToggleReset();
 		
 		egm.newRow(5);
-		egm.addHeaderData("SAMPLE TITLE BAR 2",8,hdStl.Title);
+		egm.addHeaderData("SAMPLE TITLE BAR 2",8,hdStl.TITLE);
 		
 		egm.newRow(2);
-		egm.addHeaderData(mainHeader1,2,hdStl.style1);
+		egm.addHeaderData(mainHeader1,2,hdStl.STYLE1);
 		
 		
 		egm.newRow();
-		egm.addHeaderData(subHeader1,hdStl.style2);
+		egm.addHeaderData(subHeader1,hdStl.STYLE2);
 		egm.newRow();
 		
 		for(String[] dataRow : dataList) {
@@ -77,10 +77,10 @@ public class SimpleTwoSheetWorkbook {
 		
 		
 		egm.newRow();
-		egm.addHeaderData("SHEET 2 SAMPLE TITLE BAR 1",6,hdStl.Title);
+		egm.addHeaderData("SHEET 2 SAMPLE TITLE BAR 1",6,hdStl.TITLE);
 		
 		egm.newRow(2);
-		egm.addHeaderData("Header",hdStl.style1);
+		egm.addHeaderData("Header",hdStl.STYLE1);
 		egm.newRow();
 		egm.addData("data11");
 		egm.newRow();
@@ -92,11 +92,11 @@ public class SimpleTwoSheetWorkbook {
 		
 		
 		egm.newRow(5);
-		egm.addHeaderData("SHEET 2 SAMPLE TITLE BAR 2",8,hdStl.Title);
+		egm.addHeaderData("SHEET 2 SAMPLE TITLE BAR 2",8,hdStl.TITLE);
 		egm.newRow(2);
-		egm.addHeaderData(mainHeader1,2,hdStl.style1);
+		egm.addHeaderData(mainHeader1,2,hdStl.STYLE1);
 		egm.newRow();
-		egm.addHeaderData(subHeader1,hdStl.style2);
+		egm.addHeaderData(subHeader1,hdStl.STYLE2);
 		egm.newRow();
 		
 		for(String[] dataRow : dataList) {
