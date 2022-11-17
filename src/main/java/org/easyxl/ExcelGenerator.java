@@ -1,6 +1,5 @@
 package org.easyxl;
 
-import java.awt.Color;
 import java.util.HashMap;
 
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -21,6 +20,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.easyxl.utils.GeneralUtils;
 
+/**
+ * @author SANTOSHVARAMBALLI
+ *
+ */
 public class ExcelGenerator {
 //test comment
 
@@ -40,45 +43,44 @@ public class ExcelGenerator {
     String font = "calibri";
     private HashMap<String,XSSFCellStyle> customStylesMap  = new HashMap<String,XSSFCellStyle>();
 
-
-	public ExcelGenerator(){}
-
-
-
-
-
+    
 	private XSSFColor  xssfColorBlack = new XSSFColor(new byte[]{0, 0,0},new DefaultIndexedColorMap());
 
-   private boolean dataStyleToggle = false;
+	   private boolean dataStyleToggle = false;
 
-   public enum horizontalAllignment { LEFT, RIGHT, CENTER }
-	public enum hdStl { STYLE1, STYLE2, TITLE }
-	XSSFCellStyle defaultCellStyle = null;
+	   public enum horizontalAllignment { LEFT, RIGHT, CENTER }
+		public enum hdStl { STYLE1, STYLE2, TITLE }
+		XSSFCellStyle defaultCellStyle = null;
 
-    XSSFCellStyle cellStyleHeaderTitle = null;
+	    XSSFCellStyle cellStyleHeaderTitle = null;
 
-    XSSFCellStyle cellStyleHeader1 = null;
-    XSSFCellStyle cellStyleHeader2 = null;
-    XSSFCellStyle cellStyleData1 = null;
-    XSSFCellStyle cellStyleData2 = null;
+	    XSSFCellStyle cellStyleHeader1 = null;
+	    XSSFCellStyle cellStyleHeader2 = null;
+	    XSSFCellStyle cellStyleData1 = null;
+	    XSSFCellStyle cellStyleData2 = null;
 
 
-    private HashMap<String,XSSFCellStyle> customStyleMap = new HashMap<String,XSSFCellStyle>();
+	public ExcelGenerator(){
+		
+		
+		
+	}
+
+
+
+
+
+
 
 
     public XSSFWorkbook getExcelWorkBook() {
     	return  this.workBook;
     }
     
-///// ADDING Custom style 
-    //Create Style object (XSSFCellStyle)
-    //Create a method store style object in map  
-    //create Header and data methods to accept Key
-    //TEST
-    
     
 public void addCustomStyle (String StyleName,String  hexBGColor,String  hexFontColor,String font,double fontSize,horizontalAllignment allignment,
 		Boolean isBold, Boolean isItalic, Boolean isUnderline) {
+	 XSSFCellStyle newCustomCellStyle = null;
 	//Convert Hex to byte
     byte[] bgColor= new  byte[] { (byte) 255, (byte) 255, (byte) 255 };
     byte[] fontColor = new  byte[]  { (byte) 0, (byte) 0, (byte) 0 };
@@ -92,6 +94,9 @@ public void addCustomStyle (String StyleName,String  hexBGColor,String  hexFontC
     	bgColor = bgColorTemp;
     	fontColor=fontColorTemp;
     }
+    else {
+    	System.out.println(StyleName + "- Setting default values for font and background color and supplied values are not valid Hex Code.");
+    }
     
     if(allignment.equals(horizontalAllignment.RIGHT)) {
     	finalIAllignment= "Right";
@@ -102,10 +107,10 @@ public void addCustomStyle (String StyleName,String  hexBGColor,String  hexFontC
     
     
     
-    cellStyleHeaderTitle = setCellStyle(bgColor, fontColor, font, isBold, isItalic, isUnderline, fontSize, finalIAllignment);
+    newCustomCellStyle = setCellStyle(bgColor, fontColor, font, isBold, isItalic, isUnderline, fontSize, finalIAllignment);
 	
-    customStyleMap.put(StyleName, cellStyleHeaderTitle);
-    
+    customStylesMap.put(StyleName, newCustomCellStyle);
+    System.out.println( StyleName + "- Saved");
 }
 
     public void createNewExcelSheet (String sheetName) {
@@ -226,15 +231,15 @@ public void addCustomStyle (String StyleName,String  hexBGColor,String  hexFontC
 		//If yes Continue
 		createStyledCell(row, value, customStylesMap.get(customStyleName));
 	}
-
 	else {
 		//Else Print Debug and Set default.
 		System.out.println("Style " +customStyleName+" Not defined, Using Default style.");
 		createStyledCell(row, value, defaultCellStyle);
 	}
 
-
     }
+    
+
 
     protected void createStyledCell(XSSFRow row, String value, XSSFCellStyle xssfCellStyle) {
 	XSSFCell contentCell = null;
@@ -394,15 +399,89 @@ public void addCustomStyle (String StyleName,String  hexBGColor,String  hexFontC
 	updateMaxColumnCount();
 
     }
+    
 
+
+    /**
+     * @param data
+     * @param customStyleName
+     */
     public void addCustomStyledData(String data, String customStyleName) {
 	xl = new StringBuffer("");
 	xl.append(data);
 	createCustomStyledCellNew(row, xl.toString(), customStyleName);
 	updateMaxColumnCount();
+    }
+
+    
+    /**
+     * @param data
+     * @param columnWidth
+     * @param customStyleName
+     */
+    public void addCustomStyledData(String data, int columnWidth, String customStyleName) {
+    	int rowNum = row.getRowNum();
+
+    	int firstColumn = row.getLastCellNum();
+    	firstColumn = (firstColumn < 0 ? 0 : firstColumn);
+
+    	addCustomStyledData(data, customStyleName);
+    	columnWidth = firstColumn + columnWidth-1;
+
+    	sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum, firstColumn, columnWidth));
+    	RegionUtil.setBorderBottom( BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, columnWidth), sheet);
+    	RegionUtil.setBorderTop(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, columnWidth), sheet);
+    	RegionUtil.setBorderLeft(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, columnWidth), sheet);
+    	RegionUtil.setBorderRight(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, columnWidth), sheet);
+    	updateMaxColumnCount();
+        }
+    
+    
+    /**
+     * @param dataArray
+     * @param customStyleName
+     */
+    public void addCustomStyledData(String[] dataArray, String customStyleName) {
+	for (String data : dataArray) {
+	    xl = new StringBuffer("");
+	    xl.append(data);
+	    createCustomStyledCellNew(row, xl.toString(), customStyleName);
+	    updateMaxColumnCount();
+	}
 
     }
 
+    /**
+     * @param dataArray
+     * @param columnWidth
+     * @param customStyleName
+     */
+    public void addCustomStyledData(String[] dataArray, int columnWidth, String customStyleName) {
+    	//int numberOfColumn=1;
+	for (String data : dataArray) {
+		
+		addCustomStyledData(data, columnWidth,customStyleName);
+		/*
+	    int rowNum = row.getRowNum();
+
+	    int firstColumn = row.getLastCellNum();
+
+	    firstColumn = (firstColumn < 0 ? 0 : firstColumn);
+
+	    addCustomStyledData(data, customStyleName);
+	    numberOfColumn = firstColumn + columnWidth-1;
+
+	   int X = row.getLastCellNum();
+
+	    sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn));
+	    int Y = row.getLastCellNum();
+	    updateMaxColumnCount();
+	    RegionUtil.setBorderBottom(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
+	    RegionUtil.setBorderTop(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
+	    RegionUtil.setBorderLeft(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
+	    RegionUtil.setBorderRight(BorderStyle.THIN, new CellRangeAddress(rowNum, rowNum, firstColumn, numberOfColumn), sheet);
+	*/}
+    }    
 
     protected void updateMaxColumnCount() {
 	if (row.getLastCellNum() > this.maxColumnCount) {
